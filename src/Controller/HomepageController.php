@@ -36,7 +36,7 @@ class HomepageController extends Controller
         return $this->render('homepage/index.html.twig');
     }
 
-    public function entries(Request $request): JsonResponse
+    public function entries(Request $request)
     {
         $accessToken = $request->getSession()->get('access_token');
         if (empty($accessToken)){
