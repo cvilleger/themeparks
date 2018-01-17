@@ -23,6 +23,9 @@
     "psr/simple-cache": {
         "version": "1.0.0"
     },
+    "symfony/asset": {
+        "version": "v4.0.3"
+    },
     "symfony/cache": {
         "version": "v4.0.3"
     },
