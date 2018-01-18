@@ -54,8 +54,31 @@ class HomepageController extends Controller
             throw new HttpException(418);
         }
 
-        $json = json_decode($response->getBody()->getContents());
+        $data = json_decode($response->getBody()->getContents(), true);
 
-        return new JsonResponse($json->entries);
+        $attractions['cols'] = [
+            ["id" => '', "label" => 'Attraction', "type" => "string"],
+            ["id" => '', "label" => 'Attente', "type" => "number"],
+            ["id" => '', "label" => 'FastPass', "type" => "boolean"],
+            ["id" => '', "label" => 'Single Rider', "type" => "boolean"],
+            ["id" => '', "label" => 'Statut', "type" => "string"],
+        ];
+
+        $rows = [];
+        foreach ($data['entries'] as $entry){
+            if (isset($entry['name'])){
+                $rows[] = [ 'c' => [
+                    ['v' => $entry['name'], 'f' => null],
+                    ['v' => $entry['waitTime']['postedWaitMinutes'], 'f' => null],
+                    ['v' => $entry['waitTime']['fastPass']['available'], 'f' => null],
+                    ['v' => $entry['waitTime']['singleRider'], 'f' => null],
+                    ['v' => $entry['waitTime']['status'], 'f' => null],
+                ]];
+            }
+        }
+
+        $attractions['rows'] = $rows;
+
+        return new JsonResponse($attractions);
     }
 }
