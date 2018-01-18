@@ -11,18 +11,16 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-    {% for entry in entries %}
-        {% if entry.name is defined %}
-            <tr>
-                <td><h2>{{ entry.name }}</h2></td>
-                <td><h2>{{ entry.waitTime.postedWaitMinutes }} min</h2></td>
-                <td class="{{ entry.waitTime.fastPass.available ? 'bg-success' : 'bg-secondary' }}"></td>
-                <td><h2>{{ entry.waitTime.status }}</h2></td>
-            <tr>
-        {% endif %}
-    {% endfor %}
-</tr>
+{% for entry in entries %}
+    {% if entry.name is defined %}
+        <tr>
+            <td><h2>{{ entry.name }}</h2></td>
+            <td class="text-center"><h2>{{ entry.waitTime.postedWaitMinutes }} min</h2></td>
+            <td class="{{ entry.waitTime.fastPass.available ? 'bg-success' : 'bg-secondary' }}"></td>
+            <td class="text-center"><h2>{{ entry.waitTime.status }}</h2></td>
+        <tr>
+    {% endif %}
+{% endfor %}
 </tbody>
 </table>
 {% endblock %}
