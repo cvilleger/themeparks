@@ -38,8 +38,6 @@ class HomepageController extends Controller
 
     public function entries(Request $request)
     {
-        //TODO To remove
-        return;
         $accessToken = $request->getSession()->get('access_token');
         if (empty($accessToken)){
             return $this->redirectToRoute('homepage');
