@@ -4,10 +4,10 @@
 <table class="table table-striped table-dark table-hover">
 <thead>
 <tr>
-    <th>Attraction</th>
-    <th>Attente</th>
-    <th>FastPass</th>
-    <th>Statut</th>
+    <th><h3>Attraction</h3></th>
+    <th><h3>Attente</h3></th>
+    <th><h3>FastPass</h3></th>
+    <th><h3>Statut</h3></th>
 </tr>
 </thead>
 <tbody>
@@ -15,10 +15,10 @@
     {% for entry in entries %}
         {% if entry.name is defined %}
             <tr>
-                <td>{{ entry.name }}</td>
-                <td>{{ entry.waitTime.postedWaitMinutes }} min</td>
+                <td><h4>{{ entry.name }}</h4></td>
+                <td><h4>{{ entry.waitTime.postedWaitMinutes }} min</h4></td>
                 <td class="{{ entry.waitTime.fastPass.available ? 'bg-success' : 'bg-secondary' }}"></td>
-                <td>{{ entry.waitTime.status }}</td>
+                <td><h4>{{ entry.waitTime.status }}</h4></td>
             <tr>
         {% endif %}
     {% endfor %}
