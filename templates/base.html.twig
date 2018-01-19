@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link rel="apple-touch-icon" href="{{ asset("apple-touch-icon.png") }}">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
         {% endblock %}
     </head>
     <body>
@@ -13,7 +14,8 @@
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-            <script src=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script type="text/javascript" src="{{ asset("js/script.js") }}"></script>
         {% endblock %}
     </body>

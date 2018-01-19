@@ -18,37 +18,50 @@ class HomepageController extends Controller
 
         $accessToken = $request->getSession()->get('access_token');
         if (empty($accessToken)){
-            $response = $client->post('https://authorization.go.com/token', [
+            $authResponse = $client->post('https://authorization.go.com/token', [
                 'headers' => [
                     'Content-Type' => 'application/x-www-form-urlencoded'
                 ],
                 'body' => 'grant_type=assertion&assertion_type=public&client_id=WDPRO-MOBILE.MDX.WDW.ANDROID-PROD'
             ]);
-            if ($response->getStatusCode() !== 200){
+            if ($authResponse->getStatusCode() !== 200){
                 throw new HttpException(418);
             }
 
-            $json = json_decode($response->getBody()->getContents());
+            $json = json_decode($authResponse->getBody()->getContents());
 
             $request->getSession()->invalidate();
             $accessToken = $json->access_token;
             $request->getSession()->set('access_token', $accessToken);
         }
 
-        $response = $client->get('https://api.wdpro.disney.go.com/facility-service/theme-parks/P1;destination=dlp/wait-times?region=fr', [
-            'headers' => [
-                'Authorization' => "Bearer $accessToken"
-            ]
-        ]);
+        $disneyParcUrls = [
+            'https://api.wdpro.disney.go.com/facility-service/theme-parks/P1;destination=dlp/wait-times?region=fr',
+            'https://api.wdpro.disney.go.com/facility-service/theme-parks/P2;destination=dlp/wait-times?region=fr'
+        ];
 
-        if ($response->getStatusCode() !== 200){
-            throw new HttpException(418);
+        $entries = [];
+        foreach ($disneyParcUrls as $disneyParcUrl){
+            $response = $client->get($disneyParcUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer $accessToken"
+                ]
+            ]);
+
+            if ($response->getStatusCode() !== 200){
+                throw new HttpException(418);
+            }
+
+            $data = (json_decode($response->getBody()->getContents()))->entries;
+
+            foreach ($data as $row){
+                $entries[] = $row;
+            }
+
         }
 
-        $data = json_decode($response->getBody()->getContents());
-
         return $this->render('homepage/index.html.twig', [
-            'entries' => $data->entries
+            'entries' => $entries
         ]);
     }
 
