@@ -3,14 +3,20 @@
 namespace App\Controller;
 
 use GuzzleHttp\Client;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class HomepageController extends Controller
 {
+    /**
+     * @Cache(maxage="1")
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function index(Request $request): Response
     {
 
