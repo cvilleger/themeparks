@@ -12,8 +12,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class HomepageController extends Controller
 {
     /**
-     * @Cache(maxage="1")
-     *
      * @param Request $request
      * @return Response
      */
