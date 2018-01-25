@@ -59,10 +59,17 @@ class HomepageController extends Controller
             $data = (json_decode($response->getBody()->getContents()))->entries;
 
             foreach ($data as $row){
-                $entries[] = $row;
+                if(isset($row->name)){
+                    $row->id = explode(';', $row->id)[0];
+                    $entries[] = $row;
+                }
             }
-
         }
+
+        usort($entries, function ($a, $b){
+//            return $a->waitTime->postedWaitMinutes <=> $b->waitTime->postedWaitMinutes;
+            return $a->name <=> $b->name;
+        });
 
         return $this->render('homepage/index.html.twig', [
             'entries' => $entries
