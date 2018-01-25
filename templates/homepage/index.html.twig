@@ -6,8 +6,7 @@
             {% for key, entry in entries %}
                 {% if entry.name is defined %}
                     <div class="card p-1 m-2">
-                        {#<img class="card-img-top" src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" alt="">#}
-                        <img class="card-img-top" src="https://loremflickr.com/320/240/{{ entry.name }}?random={{ random() }}" alt="">
+                        <img class="card-img-top" src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" alt="">
                         <div class="card-block">
                             <h4 class="card-title">{{ entry.name }}</h4>
                             <h5 class="card-text">{{ entry.waitTime.postedWaitMinutes }} min</h5>
