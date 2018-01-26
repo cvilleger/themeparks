@@ -12,7 +12,9 @@
     </head>
     <body>
         {{ include('helper/nav.html.twig') }}
-        {% block body %}{% endblock %}
+        <div class="grey lighten-3">
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
