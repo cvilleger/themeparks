@@ -65,7 +65,7 @@ class HomepageController extends Controller
         }
 
         usort($entries, function ($a, $b){
-            return $a->waitTime->postedWaitMinutes <=> $b->waitTime->postedWaitMinutes;
+            return $b->waitTime->postedWaitMinutes <=> $a->waitTime->postedWaitMinutes;
 //            return $a->name <=> $b->name;
         });
 
