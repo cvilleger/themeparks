@@ -65,8 +65,8 @@ class HomepageController extends Controller
         }
 
         usort($entries, function ($a, $b){
-//            return $a->waitTime->postedWaitMinutes <=> $b->waitTime->postedWaitMinutes;
-            return $a->name <=> $b->name;
+            return $a->waitTime->postedWaitMinutes <=> $b->waitTime->postedWaitMinutes;
+//            return $a->name <=> $b->name;
         });
 
         return $this->render('homepage/index.html.twig', [
