@@ -1,21 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<ul class="collection">
-    {% for key, entry in entries %}
-        {% if entry.name is defined %}
-            <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-2{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}grey{% endif %}">
-                <img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">
-                <h4>{{ entry.name }}</h4>
-                <h5><b>{{ entry.waitTime.postedWaitMinutes }} min</b></h5>
-                <h6><i>{{ entry.waitTime.status }}</i></h6>
-                {% if entry.waitTime.fastPass.available %}
-                    <div class="chip green"><h6>FassPass</h6></div>
-                {% endif %}
-                <a href="#!" class="secondary-content"><i class="material-icons">favorite_border</i></a>
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
-
+<div class="container">
+    <ul class="collection">
+        {% for key, entry in entries %}
+            {% if entry.name is defined %}
+                <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-2{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}grey{% endif %}">
+                    <img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">
+                    <h4>{{ entry.name }}</h4>
+                    <h5><b>{{ entry.waitTime.postedWaitMinutes }} min</b></h5>
+                    <h6><i>{{ entry.waitTime.status }}</i></h6>
+                    {% if entry.waitTime.fastPass.available %}
+                        <div class="chip green"><h6>FassPass</h6></div>
+                    {% endif %}
+                    <a href="#!" class="secondary-content"><i class="material-icons">favorite_border</i></a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
