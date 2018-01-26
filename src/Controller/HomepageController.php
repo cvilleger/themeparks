@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use GuzzleHttp\Client;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,6 @@ class HomepageController extends Controller
      */
     public function index(Request $request): Response
     {
-
         $client = new Client();
 
         $accessToken = $request->getSession()->get('access_token');

@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="card-columns">
-            {% for key, entry in entries %}
-                {% if entry.name is defined %}
-                    <div class="card p-1 m-2">
-                        <img class="card-img-top" src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" alt="">
-                        <div class="card-block">
-                            <h4 class="card-title">{{ entry.name }}</h4>
-                            <h5 class="card-text">{{ entry.waitTime.postedWaitMinutes }} min</h5>
-                            <h6 class="card-text">{{ entry.waitTime.fastPass.available ? 'FassPass' : 'No FassPass' }}</h6>
-                            <h6 class="card-text">{{ entry.waitTime.status }}</h6>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
+<div class="container">
+    <ul class="collection">
+        {% for key, entry in entries %}
+            {% if entry.name is defined %}
+                <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-2{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}grey{% endif %}">
+                    <img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">
+                    <h4>{{ entry.name }}</h4>
+                    <h5><b>{{ entry.waitTime.postedWaitMinutes }} min</b></h5>
+                    <h6><i>{{ entry.waitTime.status }}</i></h6>
+                    {% if entry.waitTime.fastPass.available %}
+                        <div class="chip green"><h6>FassPass</h6></div>
+                    {% endif %}
+                    <a href="#!" class="secondary-content"><i class="material-icons">favorite_border</i></a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
