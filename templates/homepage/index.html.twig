@@ -5,7 +5,7 @@
     <ul class="collection">
         {% for key, entry in entries %}
             {% if entry.name is defined %}
-                <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-2{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}grey{% endif %}">
+                <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-4{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}{% endif %}">
                     <img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">
                     <span class="title">{{ entry.name }}</span>
                     <p><b>{{ entry.waitTime.postedWaitMinutes }} min</b></p>

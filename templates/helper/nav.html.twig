@@ -1,14 +1,16 @@
 <nav>
     <div class="nav-wrapper teal">
         <a href="{{ path('homepage') }}" class="brand-logo">Disney's Time !</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
             <li><a href="#">Sort by name</a></li>
             <li><a href="#">Sort by wait times</a></li>
+            <li><a onClick="window.location.reload()" class="btn-floating waves-effect waves-light red"><i class="material-icons">refresh</i></a></li>
         </ul>
-        <ul class="side-nav" id="mobile-demo">
+        <ul class="side-nav" id="mobile-nav">
             <li><a href="#">Sort by name</a></li>
             <li><a href="#">Sort by wait times</a></li>
+            <li><a onClick="window.location.reload()"><i class="material-icons">refresh</i>Refresh</a></li>
         </ul>
     </div>
 </nav>

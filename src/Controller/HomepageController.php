@@ -5,25 +5,22 @@ namespace App\Controller;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class HomepageController extends Controller
 {
     /**
-     * @param Request $request
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
         $cache = new FilesystemAdapter('', 900);
         $dataKey = 'data_cache';
         $dataCache = $cache->getItem($dataKey);
-
         if ($dataCache->isHit()) {
             return $this->render('homepage/index.html.twig', [
-                'entries' => $cache->getItem($dataKey)->get()
+                'entries' => $dataCache->get()
             ]);
         }
 
@@ -40,10 +37,7 @@ class HomepageController extends Controller
         }
 
         $json = json_decode($authResponse->getBody()->getContents());
-
-        $request->getSession()->invalidate();
         $accessToken = $json->access_token;
-
         $disneyParcUrls = [
             'https://api.wdpro.disney.go.com/facility-service/theme-parks/P1;destination=dlp/wait-times?region=fr',
             'https://api.wdpro.disney.go.com/facility-service/theme-parks/P2;destination=dlp/wait-times?region=fr'
@@ -77,6 +71,7 @@ class HomepageController extends Controller
         });
 
         $dataCache->set($entries);
+        $dataCache->expiresAt((new \DateTime())->add(new \DateInterval('PT15M')));
         $cache->save($dataCache);
 
         return $this->render('homepage/index.html.twig', [
