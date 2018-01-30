@@ -6,7 +6,10 @@
         {% for key, entry in entries %}
             {% if entry.name is defined %}
                 <li class="collection-item avatar {% if entry.waitTime.status == 'Closed' %}red darken-4{% elseif entry.waitTime.status == 'Down' %}orange darken-2{% else %}{% endif %}">
-                    <img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">
+                    {#<img src="{{ asset("media/" ~ entry.id ~ ".jpg") }}" class="circle materialboxed" alt="{{ entry.name }}">#}
+                    {% if key % 3 == 0 %}
+                        <img src="http://thecatapi.com/api/images/get?type=gif&size=medium&random={{ random() }}" class="circle materialboxed" alt="{{ entry.name }}">
+                    {% endif %}
                     <span class="title">{{ entry.name }}</span>
                     <p><b>{{ entry.waitTime.postedWaitMinutes }} min</b></p>
                     <p><i>{{ entry.waitTime.status }}</i></p>
