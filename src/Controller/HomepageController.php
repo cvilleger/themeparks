@@ -7,37 +7,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HomepageController extends Controller
 {
-    /**
-     * @return Response
-     */
-    public function index(): Response
+    public function index(HttpClientInterface $client): Response
     {
-        $cache = new FilesystemAdapter('', 900);
-        $dataKey = 'data_cache';
-        $dataCache = $cache->getItem($dataKey);
-        if ($dataCache->isHit()) {
-            return $this->render('homepage/index.html.twig', [
-                'entries' => $dataCache->get()
-            ]);
-        }
+//        $cache = new FilesystemAdapter('', 900);
+//        $dataKey = 'data_cache';
+//        $dataCache = $cache->getItem($dataKey);
+//        if ($dataCache->isHit()) {
+//            return $this->render('homepage/index.html.twig', [
+//                'entries' => $dataCache->get()
+//            ]);
+//        }
 
-        $client = new Client();
-
-        $authResponse = $client->post('https://authorization.go.com/token', [
+        $authResponse = $client->request('POST', 'https://authorization.go.com/token', [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded'
             ],
             'body' => 'grant_type=assertion&assertion_type=public&client_id=WDPRO-MOBILE.MDX.WDW.ANDROID-PROD'
         ]);
-        if ($authResponse->getStatusCode() !== 200){
-            throw new HttpException(418);
-        }
 
-        $json = json_decode($authResponse->getBody()->getContents());
-        $accessToken = $json->access_token;
+        $accessToken = \json_decode($authResponse->getContent(), false)->access_token;
         $disneyParcUrls = [
             'https://api.wdpro.disney.go.com/facility-service/theme-parks/P1;destination=dlp/wait-times?region=fr',
             'https://api.wdpro.disney.go.com/facility-service/theme-parks/P2;destination=dlp/wait-times?region=fr'
@@ -45,17 +37,13 @@ class HomepageController extends Controller
 
         $entries = [];
         foreach ($disneyParcUrls as $disneyParcUrl){
-            $response = $client->get($disneyParcUrl, [
+            $response = $client->request('GET', $disneyParcUrl, [
                 'headers' => [
                     'Authorization' => "Bearer $accessToken"
                 ]
             ]);
 
-            if ($response->getStatusCode() !== 200){
-                throw new HttpException(418);
-            }
-
-            $data = (json_decode($response->getBody()->getContents()))->entries;
+            $data = json_decode($response->getContent(), false)->entries;
 
             foreach ($data as $row){
                 if(isset($row->name)){
@@ -65,14 +53,13 @@ class HomepageController extends Controller
             }
         }
 
-        usort($entries, function ($a, $b){
+        usort($entries, static function ($a, $b){
             return $b->waitTime->postedWaitMinutes <=> $a->waitTime->postedWaitMinutes;
-//            return $a->name <=> $b->name;
         });
 
-        $dataCache->set($entries);
-        $dataCache->expiresAt((new \DateTime())->add(new \DateInterval('PT15M')));
-        $cache->save($dataCache);
+//        $dataCache->set($entries);
+//        $dataCache->expiresAt((new \DateTime())->add(new \DateInterval('PT15M')));
+//        $cache->save($dataCache);
 
         return $this->render('homepage/index.html.twig', [
             'entries' => $entries
